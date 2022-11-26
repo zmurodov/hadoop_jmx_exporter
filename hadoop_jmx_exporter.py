@@ -29,12 +29,14 @@ def register_prometheus(cluster, args):
         REGISTRY.register(NodeManagerMetricCollector(cluster, rmc))
     if args.jns is not None and len(args.jns) > 0:
         REGISTRY.register(JournalNodeMetricCollector(cluster, args.jns))
+
+
 def main():
     args = utils.parse_args()
     host = args.host
     port = int(args.port)
     start_http_server(port, host)
-    print "Listen at %s:%s" % (host, port)
+    print("Listen at %s:%s" % (host, port))
     register_prometheus(args.cluster, args)
     while True:
         time.sleep(300)

@@ -57,7 +57,8 @@ class DataNodeMetricCollector(MetricCollector):
                 snake_case = re.sub('([a-z0-9])([A-Z])', r'\1_\2', metric).lower()
                 name = "_".join([self.prefix, snake_case])
             label.append("_target")
-            self.hadoop_datanode_metrics['DataNodeInfo'][metric] = GaugeMetricFamily(name, self.metrics['DataNodeInfo'][metric], labels=label)
+            self.hadoop_datanode_metrics['DataNodeInfo'][metric] = GaugeMetricFamily(name, self.metrics['DataNodeInfo'][
+                metric], labels=label)
 
     def setup_dnactivity_labels(self):
         block_flag, client_flag = 1, 1
@@ -87,7 +88,8 @@ class DataNodeMetricCollector(MetricCollector):
                 name = snake_case
                 descriptions = self.metrics['DataNodeActivity'][metric]
             label.append("_target")
-            self.hadoop_datanode_metrics['DataNodeActivity'][key] = GaugeMetricFamily("_".join([self.prefix, name]), descriptions, labels=label)
+            self.hadoop_datanode_metrics['DataNodeActivity'][key] = GaugeMetricFamily("_".join([self.prefix, name]),
+                                                                                      descriptions, labels=label)
 
     def setup_fsdatasetstate_labels(self):
         for metric in self.metrics['FSDatasetState']:
@@ -97,7 +99,9 @@ class DataNodeMetricCollector(MetricCollector):
             else:
                 snake_case = re.sub('([a-z0-9])([A-Z])', r'\1_\2', metric).lower()
             name = "_".join([self.prefix, snake_case])
-            self.hadoop_datanode_metrics['FSDatasetState'][metric] = GaugeMetricFamily(name, self.metrics['FSDatasetState'][metric], labels=label)
+            self.hadoop_datanode_metrics['FSDatasetState'][metric] = GaugeMetricFamily(name,
+                                                                                       self.metrics['FSDatasetState'][
+                                                                                           metric], labels=label)
 
     def setup_metrics_labels(self, beans):
         for i in range(len(beans)):
@@ -145,7 +149,8 @@ class DataNodeMetricCollector(MetricCollector):
             else:
                 key = metric
             label.append(self.target)
-            self.hadoop_datanode_metrics['DataNodeActivity'][key].add_metric(label, bean[metric] if metric in bean else 0)
+            self.hadoop_datanode_metrics['DataNodeActivity'][key].add_metric(label,
+                                                                             bean[metric] if metric in bean else 0)
 
     def get_fsdatasetstate_metrics(self, bean):
         for metric in self.metrics['FSDatasetState']:

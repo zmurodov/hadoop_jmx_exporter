@@ -67,7 +67,8 @@ class NodeManagerMetricCollector(MetricCollector):
                             key = metric
                             description = self.metrics[service][metric]
                         label.append("target")
-                        self.hadoop_nodemanager_metrics[service][key] = GaugeMetricFamily(name, description, labels=label)
+                        self.hadoop_nodemanager_metrics[service][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
 
     def get_metrics(self, beans):
         for i in range(len(beans)):

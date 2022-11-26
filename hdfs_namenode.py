@@ -58,7 +58,8 @@ class NameNodeMetricCollector(MetricCollector):
                     key = "MethodNumOps"
                     name = "_".join([self.prefix, "nnactivity_method_ops_total"])
                     description = "Total number of the times the method is called."
-                    self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, description, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, description,
+                                                                                              labels=label)
                     num_namenode_flag = 0
                 else:
                     continue
@@ -67,7 +68,8 @@ class NameNodeMetricCollector(MetricCollector):
                     key = "MethodAvgTime"
                     name = "_".join([self.prefix, "nnactivity_method_avg_time_milliseconds"])
                     descripton = "Average turn around time of the method in milliseconds."
-                    self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, descripton, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, descripton,
+                                                                                              labels=label)
                     avg_namenode_flag = 0
                 else:
                     continue
@@ -75,7 +77,8 @@ class NameNodeMetricCollector(MetricCollector):
                 key = "Operations"
                 name = "_".join([self.prefix, "nnactivity_operations_total"])
                 description = "Total number of each operation."
-                self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, description, labels=label)
+                self.hadoop_namenode_metrics['NameNodeActivity'][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
                 ops_namenode_flag = 0
 
     def setup_startupprogress_labels(self):
@@ -187,7 +190,9 @@ class NameNodeMetricCollector(MetricCollector):
             if "LiveNodes" in metric:
                 name = "_".join([self.prefix, "nninfo_live_nodes_count"])
                 description = "Count of live data node"
-                self.hadoop_namenode_metrics['NameNodeInfo']["LiveNodeCount"] = GaugeMetricFamily(name, description, labels=["cluster", "_target"])
+                self.hadoop_namenode_metrics['NameNodeInfo']["LiveNodeCount"] = GaugeMetricFamily(name, description,
+                                                                                                  labels=["cluster",
+                                                                                                          "_target"])
 
                 label = ["cluster", "datanode", "infoAddr", "infoSecureAddr", "xferaddr", "version", "_target"]
                 items = ["lastContact", "usedSpace", "adminState", "nonDfsUsedSpace", "capacity", "numBlocks",
@@ -199,12 +204,15 @@ class NameNodeMetricCollector(MetricCollector):
                     description = "Live node " + item
                     if item == "admin_state":
                         description += " 0: In Service, 1: Decommission In Progress, 2: Decommissioned"
-                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
                 continue
             elif "DeadNodes" in metric:
                 name = "_".join([self.prefix, "nninfo_dead_nodes_count"])
                 description = "Count of dead data node"
-                self.hadoop_namenode_metrics['NameNodeInfo']["DeadNodeCount"] = GaugeMetricFamily(name, description, labels=["cluster", "_target"])
+                self.hadoop_namenode_metrics['NameNodeInfo']["DeadNodeCount"] = GaugeMetricFamily(name, description,
+                                                                                                  labels=["cluster",
+                                                                                                          "_target"])
 
                 label = ["cluster", "datanode", "decommissioned", "xferaddr"]
                 name = "_".join([self.prefix, "nninfo_dead_nodes_last_contact"])
@@ -215,7 +223,9 @@ class NameNodeMetricCollector(MetricCollector):
             elif "DecomNodes" in metric:
                 name = "_".join([self.prefix, "nninfo_decom_nodes_count"])
                 description = "Count of decommissioned data node"
-                self.hadoop_namenode_metrics['NameNodeInfo']["DecomNodeCount"] = GaugeMetricFamily(name, description, labels=["cluster", "_target"])
+                self.hadoop_namenode_metrics['NameNodeInfo']["DecomNodeCount"] = GaugeMetricFamily(name, description,
+                                                                                                   labels=["cluster",
+                                                                                                           "_target"])
 
                 label = ["cluster", "datanode", "xferaddr", "_target"]
                 items = ["underReplicatedBlocks", "decommissionOnlyReplicas", "underReplicateInOpenFiles"]
@@ -224,12 +234,17 @@ class NameNodeMetricCollector(MetricCollector):
                     name = "_".join([self.prefix, "nninfo_decom_nodes", item])
                     key = "DecomNodes-" + item
                     description = "Decom Node " + item
-                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
                 continue
             elif "EnteringMaintenanceNodes" in metric:
                 name = "_".join([self.prefix, "nninfo_maintenance_nodes_count"])
                 description = "Count of maintenance data node"
-                self.hadoop_namenode_metrics['NameNodeInfo']["MaintenanceNodeCount"] = GaugeMetricFamily(name, description, labels=["cluster", "_target"])
+                self.hadoop_namenode_metrics['NameNodeInfo']["MaintenanceNodeCount"] = GaugeMetricFamily(name,
+                                                                                                         description,
+                                                                                                         labels=[
+                                                                                                             "cluster",
+                                                                                                             "_target"])
 
                 label = ["cluster", "datanode", "xferaddr", "_target"]
                 items = ["underReplicatedBlocks", "maintenanceOnlyReplicas", "underReplicateInOpenFiles"]
@@ -238,7 +253,8 @@ class NameNodeMetricCollector(MetricCollector):
                     name = "_".join([self.prefix, "nninfo_entering_maintenance_nodes", item])
                     key = "EnteringMaintenanceNodes-" + item
                     description = "Entering maintenance node " + item
-                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
                 continue
             elif "CorruptFiles" in metric:
                 label = ["cluster", "_target"]
@@ -255,7 +271,8 @@ class NameNodeMetricCollector(MetricCollector):
                     name = "_".join([self.prefix, "nninfo_node_usage", item])
                     key = "NodeUsage-" + item
                     description = "Node usage " + item
-                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description, labels=label)
+                    self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, description,
+                                                                                          labels=label)
                 continue
             elif "SoftwareVersion" in metric:
                 label = ["cluster", "software_version"]
@@ -271,7 +288,9 @@ class NameNodeMetricCollector(MetricCollector):
                 name = "_".join([self.prefix, "nninfo", snake_case])
                 key = metric
             label.append("_target")
-            self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name, self.metrics["NameNodeInfo"][metric], labels=label)
+            self.hadoop_namenode_metrics['NameNodeInfo'][key] = GaugeMetricFamily(name,
+                                                                                  self.metrics["NameNodeInfo"][metric],
+                                                                                  labels=label)
 
     def setup_metrics_labels(self, beans):
         for i in range(len(beans)):
@@ -303,7 +322,8 @@ class NameNodeMetricCollector(MetricCollector):
                     method = metric
                 key = "Operations"
             label = [self.cluster, method, self.target]
-            self.hadoop_namenode_metrics['NameNodeActivity'][key].add_metric(label, bean[metric] if metric in bean else 0)
+            self.hadoop_namenode_metrics['NameNodeActivity'][key].add_metric(label,
+                                                                             bean[metric] if metric in bean else 0)
 
     def get_startupprogress_metrics(self, bean):
         for metric in self.metrics['StartupProgress']:
@@ -323,7 +343,8 @@ class NameNodeMetricCollector(MetricCollector):
                 key = metric
                 phase = "-"
             label = [self.cluster, phase, self.target]
-            self.hadoop_namenode_metrics['StartupProgress'][key].add_metric(label, bean[metric] if metric in bean else 0)
+            self.hadoop_namenode_metrics['StartupProgress'][key].add_metric(label,
+                                                                            bean[metric] if metric in bean else 0)
 
     def get_fsnamesystem_metrics(self, bean):
         for metric in self.metrics['FSNamesystem']:
@@ -347,11 +368,13 @@ class NameNodeMetricCollector(MetricCollector):
                 mode = metric.split("Capacity")[1]
                 label = [self.cluster, mode]
                 label.append(self.target)
-                self.hadoop_namenode_metrics['FSNamesystem'][key].add_metric(label, bean[metric] if metric in bean else 0)
+                self.hadoop_namenode_metrics['FSNamesystem'][key].add_metric(label,
+                                                                             bean[metric] if metric in bean else 0)
             else:
                 label = [self.cluster]
                 label.append(self.target)
-                self.hadoop_namenode_metrics['FSNamesystem'][key].add_metric(label, bean[metric] if metric in bean else 0)
+                self.hadoop_namenode_metrics['FSNamesystem'][key].add_metric(label,
+                                                                             bean[metric] if metric in bean else 0)
 
     def get_fsnamesystem_state_metrics(self, bean):
         for metric in self.metrics['FSNamesystemState']:
@@ -374,28 +397,35 @@ class NameNodeMetricCollector(MetricCollector):
                 key = 'datanodes_num'
                 state = metric.split("DataNodes")[0].split("Num")[1]
                 label = [self.cluster, state, self.target]
-                self.hadoop_namenode_metrics['FSNamesystemState'][key].add_metric(label, bean[metric] if metric in bean and bean[metric] else 0)
+                self.hadoop_namenode_metrics['FSNamesystemState'][key].add_metric(label,
+                                                                                  bean[metric] if metric in bean and
+                                                                                                  bean[metric] else 0)
             else:
                 label.append(self.target)
-                self.hadoop_namenode_metrics['FSNamesystemState'][key].add_metric(label, bean[metric] if metric in bean and bean[metric] else 0)
+                self.hadoop_namenode_metrics['FSNamesystemState'][key].add_metric(label,
+                                                                                  bean[metric] if metric in bean and
+                                                                                                  bean[metric] else 0)
 
     def get_retrycache_metrics(self, bean):
         for metric in self.metrics['RetryCache']:
             key = "cache"
             label = [self.cluster, metric.split('Cache')[1], self.target]
-            self.hadoop_namenode_metrics['RetryCache'][key].add_metric(label, bean[metric] if metric in bean and bean[metric] else 0)
+            self.hadoop_namenode_metrics['RetryCache'][key].add_metric(label, bean[metric] if metric in bean and bean[
+                metric] else 0)
 
     def get_nninfo_metrics(self, bean):
         for metric in self.metrics["NameNodeInfo"]:
             if "LiveNodes" in metric and "LiveNodes" in bean:
                 live_node_dict = yaml.safe_load(bean["LiveNodes"])
-                self.hadoop_namenode_metrics["NameNodeInfo"]["LiveNodeCount"].add_metric([self.cluster, self.target], len(live_node_dict))
+                self.hadoop_namenode_metrics["NameNodeInfo"]["LiveNodeCount"].add_metric([self.cluster, self.target],
+                                                                                         len(live_node_dict))
                 dns = set()
                 for node, info in live_node_dict.items():
-                    label = [self.cluster, node, info["infoAddr"], info["infoSecureAddr"], info["xferaddr"], info["version"], self.target]
+                    label = [self.cluster, node, info["infoAddr"], info["infoSecureAddr"], info["xferaddr"],
+                             info["version"], self.target]
                     items = ["lastContact", "usedSpace", "adminState", "nonDfsUsedSpace", "capacity", "numBlocks",
                              "used", "remaining", "blockScheduled", "blockPoolUsed", "blockPoolUsedPercent", "volfails"]
-                    dns.add("http://"+info["infoAddr"]+"/jmx")
+                    dns.add("http://" + info["infoAddr"] + "/jmx")
                     for item in items:
                         value = info[item] if item in info else 0
                         if item == "adminState":
@@ -411,14 +441,16 @@ class NameNodeMetricCollector(MetricCollector):
                 self.dns = dns
             elif "DeadNodes" in metric and "DeadNodes" in bean:
                 dead_node_dict = yaml.safe_load(bean["DeadNodes"])
-                self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodeCount"].add_metric([self.cluster, self.target], len(dead_node_dict))
+                self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodeCount"].add_metric([self.cluster, self.target],
+                                                                                         len(dead_node_dict))
                 for node, info in dead_node_dict.items():
                     label = [self.cluster, node, str(info["decommissioned"]), info["xferaddr"], self.target]
                     value = info["lastContact"]
                     self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodes"].add_metric(label, value)
             elif "DecomNodes" in metric and "DecomNodes" in bean:
                 decom_node_dict = yaml.safe_load(bean["DecomNodes"])
-                self.hadoop_namenode_metrics["NameNodeInfo"]["DecomNodeCount"].add_metric([self.cluster, self.target], len(decom_node_dict))
+                self.hadoop_namenode_metrics["NameNodeInfo"]["DecomNodeCount"].add_metric([self.cluster, self.target],
+                                                                                          len(decom_node_dict))
                 for node, info in decom_node_dict.items():
                     label = [self.cluster, node, info["xferaddr"], self.target]
                     items = ["underReplicatedBlocks", "decommissionOnlyReplicas", "underReplicateInOpenFiles"]
@@ -429,7 +461,8 @@ class NameNodeMetricCollector(MetricCollector):
                         self.hadoop_namenode_metrics["NameNodeInfo"][key].add_metric(label, value)
             elif "EnteringMaintenanceNodes" in metric and "EnteringMaintenanceNodes" in bean:
                 node_dict = yaml.safe_load(bean["EnteringMaintenanceNodes"])
-                self.hadoop_namenode_metrics["NameNodeInfo"]["MaintenanceNodeCount"].add_metric([self.cluster, self.target], len(node_dict))
+                self.hadoop_namenode_metrics["NameNodeInfo"]["MaintenanceNodeCount"].add_metric(
+                    [self.cluster, self.target], len(node_dict))
                 for node, info in node_dict.items():
                     label = [self.cluster, node, info["xferaddr"], self.target]
                     items = ["underReplicatedBlocks", "maintenanceOnlyReplicas", "underReplicateInOpenFiles"]
@@ -457,10 +490,13 @@ class NameNodeMetricCollector(MetricCollector):
                 self.hadoop_namenode_metrics["NameNodeInfo"]["SoftwareVersion"].add_metric(label, 0)
             elif "Safemode" in metric and "Safemode" in bean:
                 label = [self.cluster, self.target]
-                self.hadoop_namenode_metrics["NameNodeInfo"]["Safemode"].add_metric(label, 0 if metric in bean and bean[metric] == "" else 1)
+                self.hadoop_namenode_metrics["NameNodeInfo"]["Safemode"].add_metric(label, 0 if metric in bean and bean[
+                    metric] == "" else 1)
             else:
                 label = [self.cluster, self.target]
-                self.hadoop_namenode_metrics['NameNodeInfo'][metric].add_metric(label, bean[metric] if metric in bean and bean[metric] else 0)
+                self.hadoop_namenode_metrics['NameNodeInfo'][metric].add_metric(label,
+                                                                                bean[metric] if metric in bean and bean[
+                                                                                    metric] else 0)
 
     def get_metrics(self, beans):
         for i in range(len(beans)):

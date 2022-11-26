@@ -56,7 +56,8 @@ class JournalNodeMetricCollector(MetricCollector):
                     key = "Syncs60"
                     name = "_".join([self.prefix, 'sync60s_latency_microseconds'])
                     descriptions = "The percentile of sync latency in microseconds in 60s granularity"
-                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions, labels=label)
+                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions,
+                                                                                                labels=label)
                 else:
                     continue
             elif 'Syncs300s' in metric:
@@ -65,7 +66,8 @@ class JournalNodeMetricCollector(MetricCollector):
                     key = "Syncs300"
                     name = "_".join([self.prefix, 'sync300s_latency_microseconds'])
                     descriptions = "The percentile of sync latency in microseconds in 300s granularity"
-                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions, labels=label)
+                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions,
+                                                                                                labels=label)
                 else:
                     continue
             elif 'Syncs3600s' in metric:
@@ -74,13 +76,16 @@ class JournalNodeMetricCollector(MetricCollector):
                     key = "Syncs3600"
                     name = "_".join([self.prefix, 'sync3600s_latency_microseconds'])
                     descriptions = "The percentile of sync latency in microseconds in 3600s granularity"
-                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions, labels=label)
+                    self.hadoop_journalnode_metrics['JournalNode'][key] = HistogramMetricFamily(name, descriptions,
+                                                                                                labels=label)
                 else:
                     continue
             else:
                 snake_case = re.sub('([a-z0-9])([A-Z])', r'\1_\2', metric).lower()
                 name = "_".join([self.prefix, snake_case])
-                self.hadoop_journalnode_metrics['JournalNode'][metric] = GaugeMetricFamily(name, self.metrics['JournalNode'][metric], labels=label)
+                self.hadoop_journalnode_metrics['JournalNode'][metric] = GaugeMetricFamily(name,
+                                                                                           self.metrics['JournalNode'][
+                                                                                               metric], labels=label)
 
     def setup_metrics_labels(self, beans):
         for i in range(len(beans)):
@@ -137,6 +142,9 @@ class JournalNodeMetricCollector(MetricCollector):
                 a_60_bucket.append(("+Inf", a_60_count))
                 a_300_bucket.append(("+Inf", a_300_count))
                 a_3600_bucket.append(("+Inf", a_3600_count))
-                self.hadoop_journalnode_metrics['JournalNode']['Syncs60'].add_metric(label, buckets=a_60_bucket, sum_value=a_60_sum)
-                self.hadoop_journalnode_metrics['JournalNode']['Syncs300'].add_metric(label, buckets=a_300_bucket, sum_value=a_300_sum)
-                self.hadoop_journalnode_metrics['JournalNode']['Syncs3600'].add_metric(label, buckets=a_3600_bucket, sum_value=a_3600_sum)
+                self.hadoop_journalnode_metrics['JournalNode']['Syncs60'].add_metric(label, buckets=a_60_bucket,
+                                                                                     sum_value=a_60_sum)
+                self.hadoop_journalnode_metrics['JournalNode']['Syncs300'].add_metric(label, buckets=a_300_bucket,
+                                                                                      sum_value=a_300_sum)
+                self.hadoop_journalnode_metrics['JournalNode']['Syncs3600'].add_metric(label, buckets=a_3600_bucket,
+                                                                                       sum_value=a_3600_sum)

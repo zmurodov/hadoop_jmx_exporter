@@ -13,7 +13,6 @@ logger = get_module_logger(__name__)
 
 
 class ResourceManagerMetricCollector(MetricCollector):
-
     NODE_STATE = {
         'NEW': 1,
         'RUNNING': 2,
@@ -71,7 +70,8 @@ class ResourceManagerMetricCollector(MetricCollector):
                 name = "_".join([self.prefix, 'node_memory_available_mb'])
             else:
                 continue
-            self.hadoop_resourcemanager_metrics['RMNMInfo'][metric] = GaugeMetricFamily(name, self.metrics['RMNMInfo'][metric], labels=label)
+            self.hadoop_resourcemanager_metrics['RMNMInfo'][metric] = GaugeMetricFamily(name, self.metrics['RMNMInfo'][
+                metric], labels=label)
 
     def setup_queue_labels(self):
         running_flag, mb_flag, vcore_flag, container_flag, apps_flag = 1, 1, 1, 1, 1
@@ -128,7 +128,8 @@ class ResourceManagerMetricCollector(MetricCollector):
                 name = "_".join([self.prefix, snake_case])
                 description = self.metrics['QueueMetrics'][metric]
             label.append("_target")
-            self.hadoop_resourcemanager_metrics['QueueMetrics'][key] = GaugeMetricFamily(name, description, labels=label)
+            self.hadoop_resourcemanager_metrics['QueueMetrics'][key] = GaugeMetricFamily(name, description,
+                                                                                         labels=label)
 
     def setup_cluster_labels(self):
         nm_flag, cm_num_flag, cm_avg_flag = 1, 1, 1
@@ -166,7 +167,8 @@ class ResourceManagerMetricCollector(MetricCollector):
                 description = self.metrics['ClusterMetrics'][metric]
                 label = ["cluster"]
             label.append("_target")
-            self.hadoop_resourcemanager_metrics['ClusterMetrics'][key] = GaugeMetricFamily("_".join([self.prefix, name]), description, labels=label)
+            self.hadoop_resourcemanager_metrics['ClusterMetrics'][key] = GaugeMetricFamily(
+                "_".join([self.prefix, name]), description, labels=label)
 
     def setup_metrics_labels(self, beans):
         for i in range(len(beans)):
@@ -182,7 +184,7 @@ class ResourceManagerMetricCollector(MetricCollector):
             nms = set()
             live_nm_list = yaml.safe_load(bean['LiveNodeManagers'])
             for j in range(len(live_nm_list)):
-                nms.add("http://"+live_nm_list[j]["NodeHTTPAddress"]+"/jmx")
+                nms.add("http://" + live_nm_list[j]["NodeHTTPAddress"] + "/jmx")
                 host = live_nm_list[j]['HostName']
                 version = live_nm_list[j]['NodeManagerVersion']
                 rack = live_nm_list[j]['Rack']
@@ -224,7 +226,8 @@ class ResourceManagerMetricCollector(MetricCollector):
             else:
                 key = metric
             label.append(self.target)
-            self.hadoop_resourcemanager_metrics['QueueMetrics'][key].add_metric(label, bean[metric] if metric in bean else 0)
+            self.hadoop_resourcemanager_metrics['QueueMetrics'][key].add_metric(label,
+                                                                                bean[metric] if metric in bean else 0)
 
     def get_cluster_metrics(self, bean):
         for metric in self.metrics['ClusterMetrics']:
@@ -241,7 +244,8 @@ class ResourceManagerMetricCollector(MetricCollector):
             else:
                 continue
             label.append(self.target)
-            self.hadoop_resourcemanager_metrics['ClusterMetrics'][key].add_metric(label, bean[metric] if metric in bean else 0)
+            self.hadoop_resourcemanager_metrics['ClusterMetrics'][key].add_metric(label,
+                                                                                  bean[metric] if metric in bean else 0)
 
     def get_metrics(self, beans):
         for i in range(len(beans)):
