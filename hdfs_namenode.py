@@ -19,6 +19,7 @@ class NameNodeMetricCollector(MetricCollector):
         self.target = "-"
         self.urls = urls
         self.dns = set()
+        self.data_node_host_infos = {}
 
         self.hadoop_namenode_metrics = {}
         for i in range(len(self.file_list)):
@@ -426,6 +427,10 @@ class NameNodeMetricCollector(MetricCollector):
                     items = ["lastContact", "usedSpace", "adminState", "nonDfsUsedSpace", "capacity", "numBlocks",
                              "used", "remaining", "blockScheduled", "blockPoolUsed", "blockPoolUsedPercent", "volfails"]
                     dns.add("http://" + info["infoAddr"] + "/jmx")
+                    host = node.split(':')[0]
+                    ip_address = info["infoAddr"].split(':')[0]
+
+                    self.data_node_host_infos[host] = ip_address
                     for item in items:
                         value = info[item] if item in info else 0
                         if item == "adminState":
@@ -438,7 +443,7 @@ class NameNodeMetricCollector(MetricCollector):
                         item = re.sub('([a-z0-9])([A-Z])', r'\1_\2', item).lower()
                         key = "LiveNodes-" + item
                         self.hadoop_namenode_metrics["NameNodeInfo"][key].add_metric(label, value)
-                self.dns.union(dns)
+                self.dns = dns
             elif "DeadNodes" in metric and "DeadNodes" in bean:
                 dead_node_dict = yaml.safe_load(bean["DeadNodes"])
                 self.hadoop_namenode_metrics["NameNodeInfo"]["DeadNodeCount"].add_metric([self.cluster, self.target],

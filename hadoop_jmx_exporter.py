@@ -17,13 +17,15 @@ logger = get_module_logger(__name__)
 
 
 def register_prometheus(cluster, args):
+    data_node_host_address = {}
     if args.nns is not None and len(args.nns) > 0:
         nnc = NameNodeMetricCollector(cluster, args.nns)
         nnc.collect()
+        data_node_host_address = nnc.data_node_host_infos
         REGISTRY.register(nnc)
         REGISTRY.register(DataNodeMetricCollector(cluster, nnc))
     if args.rms is not None and len(args.rms) > 0:
-        rmc = ResourceManagerMetricCollector(cluster, args.rms, args.queue)
+        rmc = ResourceManagerMetricCollector(cluster, args.rms, args.queue, data_node_host_address)
         rmc.collect()
         REGISTRY.register(rmc)
         REGISTRY.register(NodeManagerMetricCollector(cluster, rmc))
